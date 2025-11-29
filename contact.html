@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - DarkNet Forum</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">DARKNET</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Forum</a></li>
+                <li><a href="threads.html">Threads</a></li>
+                <li><a href="members.html">Members</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <h1>CONTACT</h1>
+            <p>Reach out to forum administrators</p>
+        </section>
+
+        <section class="content-section">
+            <div class="contact-info">
+                <h2>Administrator Contact</h2>
+                <p><strong>PGP Key:</strong> Available upon request</p>
+                <p><strong>Tor Address:</strong> hidden.onion</p>
+                <p><strong>Security:</strong> All communications encrypted</p>
+                <p style="margin-top: 1rem; color: #ffcc00;">⚠️ Use encrypted channels only. Standard email is not secure.</p>
+            </div>
+
+            <div class="contact-form-container">
+                <h2>Send Message</h2>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Username</label>
+                        <input type="text" id="name" name="name" required placeholder="Your forum username">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Contact (Optional)</label>
+                        <input type="email" id="email" name="email" placeholder="Encrypted contact method">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Your message (will be logged)"></textarea>
+                    </div>
+                    <button type="submit" class="login-button">SEND MESSAGE</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>DARKNET FORUM &copy; 2024 | Use Tor Browser | Stay Anonymous</p>
+    </footer>
+
+    <script>
+        // Prevent form submission (honeypot - no actual data processing)
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Message received. All communications are logged for security purposes.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
+

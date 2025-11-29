@@ -1,0 +1,21 @@
+# robots.txt for DarkNet Forum
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin/
+Disallow: /private/
+Disallow: /config/
+Disallow: /backup/
+Disallow: /internal/
+Disallow: /api/
+Disallow: /logs/
+Disallow: /database/
+Disallow: /members/
+Disallow: /threads/
+
+# Crawl-delay
+Crawl-delay: 10
+
+# Sitemap
+Sitemap: https://darknet.onion/sitemap.xml
+

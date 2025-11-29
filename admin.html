@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - DarkNet Forum</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">DARKNET</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Forum</a></li>
+                <li><a href="admin.html" class="active">Admin</a></li>
+                <li><a href="logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="admin-container">
+        <div class="admin-header">
+            <h1>ADMINISTRATIVE CONTROL PANEL</h1>
+            <p class="admin-subtitle">System Management Interface</p>
+        </div>
+
+        <div class="admin-content">
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>System Status</h3>
+                    <div class="status-item">
+                        <span class="status-label">Server:</span>
+                        <span class="status-value online">ONLINE</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Database:</span>
+                        <span class="status-value online">CONNECTED</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Security Level:</span>
+                        <span class="status-value">MAXIMUM</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Tor Status:</span>
+                        <span class="status-value online">ACTIVE</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>User Management</h3>
+                    <div class="info-item">
+                        <span>Total Users:</span>
+                        <span class="info-value">***</span>
+                    </div>
+                    <div class="info-item">
+                        <span>Active Sessions:</span>
+                        <span class="info-value">***</span>
+                    </div>
+                    <div class="info-item">
+                        <span>Banned Users:</span>
+                        <span class="info-value">***</span>
+                    </div>
+                    <div class="info-item">
+                        <span>Last Login:</span>
+                        <span class="info-value">***</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>System Configuration</h3>
+                    <div class="config-item">
+                        <span>API Endpoint:</span>
+                        <span class="config-value">hidden.onion</span>
+                    </div>
+                    <div class="config-item">
+                        <span>Database Host:</span>
+                        <span class="config-value">localhost</span>
+                    </div>
+                    <div class="config-item">
+                        <span>Backup Location:</span>
+                        <span class="config-value">/secure/backup/</span>
+                    </div>
+                    <div class="config-item">
+                        <span>Log Directory:</span>
+                        <span class="config-value">/var/log/forum/</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-log">
+                        <div class="activity-item">
+                            <span class="activity-time">[2024-01-15 14:32:11]</span>
+                            <span class="activity-action">User authentication attempt</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-time">[2024-01-15 14:28:45]</span>
+                            <span class="activity-action">New thread created</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-time">[2024-01-15 14:25:12]</span>
+                            <span class="activity-action">System backup completed</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-time">[2024-01-15 14:20:33]</span>
+                            <span class="activity-action">Security scan performed</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-time">[2024-01-15 14:15:07]</span>
+                            <span class="activity-action">IP address logged</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-actions">
+                <h2>Control Actions</h2>
+                <div class="action-buttons">
+                    <button class="action-btn">Backup System</button>
+                    <button class="action-btn">View Logs</button>
+                    <button class="action-btn">User Management</button>
+                    <button class="action-btn">Security Settings</button>
+                    <button class="action-btn">Database Tools</button>
+                    <button class="action-btn">System Monitor</button>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p>⚠️ <strong>SECURITY ALERT:</strong> This is a restricted area. All actions are monitored and logged. Unauthorized access will be prosecuted.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>DARKNET FORUM &copy; 2024 | Use Tor Browser | Stay Anonymous</p>
+    </footer>
+</body>
+</html>

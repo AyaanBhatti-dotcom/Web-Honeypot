@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Honeypot Monitor</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #444;
+      padding: 8px;
+    }
+    th {
+      background: #222;
+    }
+    tr:nth-child(even) {
+      background: #181818;
+    }
+    tr:nth-child(odd) {
+      background: #141414;
+    }
+    .notes {
+      color: #ff5252;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Honeypot Activity Monitor</h1>
+<p>Live view of the latest activity hitting your honeypot.</p>
+
+<div id="stats"></div>
+
+<table id="logTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Timestamp</th>
+      <th>IP</th>
+      <th>Path</th>
+      <th>Status</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+  async function loadData() {
+    const logsRes = await fetch('/api/logs?limit=50');
+    const statsRes = await fetch('/api/stats');
+
+    const logsData = await logsRes.json();
+    const statsData = await statsRes.json();
+
+    // Stats
+    document.getElementById('stats').innerHTML = `
+      <p><strong>Total Requests:</strong> ${statsData.data.total}</p>
+      <p><strong>Unique IPs:</strong> ${statsData.data.uniqueIPs}</p>
+      <p><strong>Last 24 Hours:</strong> ${statsData.data.last24Hours}</p>
+    `;
+
+    // Logs table
+    const tbody = document.querySelector('#logTable tbody');
+    tbody.innerHTML = '';
+
+    logsData.data.forEach(log => {
+      const row = document.createElement('tr');
+
+      row.innerHTML = `
+        <td>${log.id}</td>
+        <td>${log.timestamp}</td>
+        <td>${log.ip}</td>
+        <td>${log.path}</td>
+        <td>${log.status}</td>
+        <td class="notes">${log.notes || ''}</td>
+      `;
+
+      tbody.appendChild(row);
+    });
+  }
+
+  loadData();
+  setInterval(loadData, 5000); // auto-refresh every 5 sec
+</script>
+
+</body>
+</html>
