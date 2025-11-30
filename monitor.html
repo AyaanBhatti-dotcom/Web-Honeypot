@@ -2,97 +2,256 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Honeypot Monitor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Honeypot Monitor - DarkNet</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      background: #111;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      padding: 20px;
+    .monitor-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
     }
+    
+    .threat-analysis {
+      background: #000000;
+      border: 1px solid #00ff00;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .threat-analysis h2 {
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #003300;
+      padding-bottom: 0.5rem;
+    }
+    
+    .threat-summary {
+      color: #00cc00;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    
+    .threat-item {
+      background: rgba(0, 255, 0, 0.05);
+      border-left: 3px solid #00ff00;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .threat-item h3 {
+      color: #00ff00;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+    
+    .threat-item p {
+      color: #00cc00;
+      margin: 0.25rem 0;
+    }
+    
+    .recommendations {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #003300;
+    }
+    
+    .recommendations h3 {
+      color: #00ff00;
+      margin-bottom: 1rem;
+    }
+    
+    .recommendations ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .recommendations li {
+      color: #00cc00;
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    
+    .recommendations li:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #00ff00;
+    }
+    
+    .loading {
+      color: #00cc00;
+      font-style: italic;
+    }
+    
+    .error {
+      color: #ff5252;
+      border: 1px solid #ff5252;
+      padding: 1rem;
+      background: rgba(255, 82, 82, 0.1);
+    }
+    
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
+      margin-top: 1rem;
+      background: #000000;
+      border: 1px solid #00ff00;
     }
+    
     th, td {
-      border: 1px solid #444;
-      padding: 8px;
+      border: 1px solid #003300;
+      padding: 0.75rem;
+      text-align: left;
     }
+    
     th {
-      background: #222;
+      background: rgba(0, 255, 0, 0.1);
+      color: #00ff00;
+      font-weight: bold;
     }
-    tr:nth-child(even) {
-      background: #181818;
+    
+    td {
+      color: #00cc00;
     }
-    tr:nth-child(odd) {
-      background: #141414;
+    
+    tr:hover {
+      background: rgba(0, 255, 0, 0.05);
     }
+    
     .notes {
       color: #ff5252;
       font-weight: bold;
     }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-box {
+      background: #000000;
+      border: 1px solid #00ff00;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      color: #00ff00;
+      font-weight: bold;
+    }
+    
+    .stat-label {
+      color: #00cc00;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
+  <header>
+    <nav>
+      <div class="logo">DARKNET</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Forum</a></li>
+        <li><a href="monitor.html" class="active">Monitor</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<h1>Honeypot Activity Monitor</h1>
-<p>Live view of the latest activity hitting your honeypot.</p>
+  <main class="monitor-container">
+    <h1 style="color: #00ff00; font-family: 'Share Tech Mono', monospace; margin-bottom: 1rem;">HONEYPOT ACTIVITY MONITOR</h1>
+    <p style="color: #00cc00; margin-bottom: 2rem;">Live view of threats and activity hitting your honeypot</p>
 
-<div id="stats"></div>
+    <div id="stats" class="stats-grid"></div>
 
-<table id="logTable">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Timestamp</th>
-      <th>IP</th>
-      <th>Path</th>
-      <th>Status</th>
-      <th>Notes</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+    <div class="threat-analysis">
+      <h2>THREAT SUMMARY</h2>
+      <div id="threatAnalysis">
+        <p style="color: #00cc00;">Manual threat analysis will be implemented here.</p>
+      </div>
+    </div>
 
-<script>
-  async function loadData() {
-    const logsRes = await fetch('/api/logs?limit=50');
-    const statsRes = await fetch('/api/stats');
+    <div style="background: #000000; border: 1px solid #00ff00; padding: 2rem;">
+      <h2 style="color: #00ff00; font-family: 'Share Tech Mono', monospace; margin-bottom: 1rem;">RECENT ACTIVITY</h2>
+      <table id="logTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Timestamp</th>
+            <th>IP</th>
+            <th>Path</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
 
-    const logsData = await logsRes.json();
-    const statsData = await statsRes.json();
+  <footer>
+    <p>DARKNET FORUM &copy; 2024 | Use Tor Browser | Stay Anonymous</p>
+  </footer>
 
-    // Stats
-    document.getElementById('stats').innerHTML = `
-      <p><strong>Total Requests:</strong> ${statsData.data.total}</p>
-      <p><strong>Unique IPs:</strong> ${statsData.data.uniqueIPs}</p>
-      <p><strong>Last 24 Hours:</strong> ${statsData.data.last24Hours}</p>
-    `;
+  <script>
+    async function loadData() {
+      const logsRes = await fetch('/api/logs?limit=50');
+      const statsRes = await fetch('/api/stats');
 
-    // Logs table
-    const tbody = document.querySelector('#logTable tbody');
-    tbody.innerHTML = '';
+      const logsData = await logsRes.json();
+      const statsData = await statsRes.json();
 
-    logsData.data.forEach(log => {
-      const row = document.createElement('tr');
-
-      row.innerHTML = `
-        <td>${log.id}</td>
-        <td>${log.timestamp}</td>
-        <td>${log.ip}</td>
-        <td>${log.path}</td>
-        <td>${log.status}</td>
-        <td class="notes">${log.notes || ''}</td>
+      // Stats
+      const statsDiv = document.getElementById('stats');
+      statsDiv.innerHTML = `
+        <div class="stat-box">
+          <div class="stat-value">${statsData.data.total}</div>
+          <div class="stat-label">Total Requests</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${statsData.data.uniqueIPs}</div>
+          <div class="stat-label">Unique IPs</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${statsData.data.last24Hours}</div>
+          <div class="stat-label">Last 24 Hours</div>
+        </div>
       `;
 
-      tbody.appendChild(row);
-    });
-  }
+      // Logs table
+      const tbody = document.querySelector('#logTable tbody');
+      tbody.innerHTML = '';
 
-  loadData();
-  setInterval(loadData, 5000); // auto-refresh every 5 sec
-</script>
+      if (logsData.data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #00cc00;">No activity logged yet</td></tr>';
+      } else {
+        logsData.data.forEach(log => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${log.id}</td>
+            <td>${log.timestamp}</td>
+            <td>${log.ip}</td>
+            <td>${log.path}</td>
+            <td>${log.status}</td>
+            <td class="notes">${log.notes || ''}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+    }
 
+    // Load data on page load
+    loadData();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadData, 30000);
+  </script>
 </body>
 </html>

@@ -129,10 +129,57 @@ function getStats() {
   });
 }
 
+// Get threat data for LLM analysis
+function getThreatData(limit = 100) {
+  return new Promise((resolve) => {
+    db.all(
+      `SELECT ip, method, path, status, user_agent, params, referrer, geoip, notes, timestamp 
+       FROM requests 
+       WHERE notes IS NOT NULL OR path LIKE '%admin%' OR path LIKE '%login%' 
+       ORDER BY timestamp DESC 
+       LIMIT ?`,
+      [limit],
+      (err, rows) => {
+        if (err) {
+          console.error("getThreatData error:", err);
+          return resolve([]);
+        }
+        resolve(rows);
+      }
+    );
+  });
+}
+
+// Get IP statistics for analysis
+function getIPStats() {
+  return new Promise((resolve) => {
+    db.all(
+      `SELECT ip, COUNT(*) as count, 
+              GROUP_CONCAT(DISTINCT path) as paths,
+              GROUP_CONCAT(DISTINCT notes) as notes,
+              MAX(timestamp) as last_seen
+       FROM requests 
+       WHERE timestamp > datetime('now', '-7 days')
+       GROUP BY ip 
+       ORDER BY count DESC 
+       LIMIT 20`,
+      (err, rows) => {
+        if (err) {
+          console.error("getIPStats error:", err);
+          return resolve([]);
+        }
+        resolve(rows);
+      }
+    );
+  });
+}
+
 module.exports = {
   db,
   logRequest,
   getAllRequests,
   getRequestsByIP,
   getStats,
+  getThreatData,
+  getIPStats,
 };
