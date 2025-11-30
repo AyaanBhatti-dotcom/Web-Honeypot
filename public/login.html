@@ -25,7 +25,7 @@
             <h2>ACCESS DENIED</h2>
             <p class="login-subtitle">Enter credentials to gain access</p>
             
-            <form id="loginForm" action="admin.html" method="POST">
+            <form id="loginForm" action="/api/login" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required autocomplete="username" placeholder="Enter username">
@@ -56,12 +56,9 @@
     </footer>
 
     <script>
-        // Simulate form submission without actually sending data
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Redirect to admin page (simulated)
-            window.location.href = 'admin.html';
-        });
+        // Form will submit to server and get logged
+        // The form action="/api/login" will handle the POST request
+        // The server will redirect to admin.html after logging
     </script>
 </body>
 </html>

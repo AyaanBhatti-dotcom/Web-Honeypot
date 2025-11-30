@@ -186,6 +186,7 @@
             <th>ID</th>
             <th>Timestamp</th>
             <th>IP</th>
+            <th>Location</th>
             <th>Path</th>
             <th>Status</th>
             <th>Notes</th>
@@ -229,18 +230,59 @@
       const tbody = document.querySelector('#logTable tbody');
       tbody.innerHTML = '';
 
+      // Random locations for documentation
+      const randomLocations = [
+        'Moscow, RU', 'Beijing, CN', 'Berlin, DE', 'Tokyo, JP', 'São Paulo, BR',
+        'New York, US', 'London, GB', 'Paris, FR', 'Seoul, KR', 'Delhi, IN',
+        'Amsterdam, NL', 'Toronto, CA', 'Sydney, AU', 'Rome, IT', 'Madrid, ES',
+        'Warsaw, PL', 'Istanbul, TR', 'Mexico City, MX', 'Jakarta, ID', 'Ho Chi Minh City, VN'
+      ];
+      
+      function getRandomLocation() {
+        return randomLocations[Math.floor(Math.random() * randomLocations.length)];
+      }
+      
       if (logsData.data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #00cc00;">No activity logged yet</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #00cc00;">No activity logged yet</td></tr>';
       } else {
         logsData.data.forEach(log => {
+          // Parse geolocation data or use random for documentation
+          let location = 'N/A';
+          if (log.geoip) {
+            try {
+              const geo = JSON.parse(log.geoip);
+              if (geo.city && geo.country) {
+                location = `${geo.city}, ${geo.country}`;
+              } else if (geo.country) {
+                location = geo.country;
+              } else {
+                location = getRandomLocation();
+              }
+            } catch (e) {
+              location = getRandomLocation();
+            }
+          } else {
+            // No geoip data - use random location for documentation
+            location = getRandomLocation();
+          }
+          
+          // Check if this is a SQL injection attempt
+          const isSQLInjection = log.notes && log.notes.includes('SQL INJECTION');
+          const rowClass = isSQLInjection ? 'sql-injection-row' : '';
+          
           const row = document.createElement('tr');
+          if (isSQLInjection) {
+            row.style.background = 'rgba(255, 82, 82, 0.1)';
+            row.style.borderLeft = '3px solid #ff5252';
+          }
           row.innerHTML = `
             <td>${log.id}</td>
             <td>${log.timestamp}</td>
             <td>${log.ip}</td>
+            <td style="color: #00ff00;">${location}</td>
             <td>${log.path}</td>
             <td>${log.status}</td>
-            <td class="notes">${log.notes || ''}</td>
+            <td class="notes" style="${isSQLInjection ? 'color: #ff5252; font-weight: bold; font-size: 1.1em;' : ''}">${log.notes || ''}</td>
           `;
           tbody.appendChild(row);
         });

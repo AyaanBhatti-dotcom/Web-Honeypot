@@ -1,9 +1,16 @@
 // database.js
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
+const fs = require("fs");
 
-// Initialize database
-const dbPath = path.join(__dirname, "honeypot.db");
+// Ensure private folder exists
+const privateDir = path.join(__dirname, "private");
+if (!fs.existsSync(privateDir)) {
+  fs.mkdirSync(privateDir, { recursive: true });
+}
+
+// Initialize database in private folder
+const dbPath = path.join(privateDir, "honeypot.db");
 const db = new sqlite3.Database(dbPath);
 
 // Create table + indexes

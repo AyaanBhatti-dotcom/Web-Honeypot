@@ -37,7 +37,7 @@
 
             <div class="contact-form-container">
                 <h2>Send Message</h2>
-                <form class="contact-form">
+                <form class="contact-form" action="/api/contact" method="POST">
                     <div class="form-group">
                         <label for="name">Username</label>
                         <input type="text" id="name" name="name" required placeholder="Your forum username">
@@ -61,11 +61,24 @@
     </footer>
 
     <script>
-        // Prevent form submission (honeypot - no actual data processing)
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Message received. All communications are logged for security purposes.');
-            this.reset();
+        // Form will submit to server and get logged
+        document.querySelector('.contact-form').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent default to handle response
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                alert(data.message || 'Message received. All communications are logged for security purposes.');
+                this.reset();
+            } catch (error) {
+                alert('Error sending message. Please try again.');
+            }
         });
     </script>
 </body>

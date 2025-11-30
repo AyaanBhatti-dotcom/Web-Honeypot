@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  honeypot:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./private:/app/private
+      - ./.env:/app/.env
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+
